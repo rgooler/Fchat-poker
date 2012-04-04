@@ -39,9 +39,9 @@ class Pokerbot(object):
     
     def handle_PRI(self,data):
         if data['character'] in self.adminUsers:
-            self.adminCommand(data['character'],data['message'])
+            self.adminPMCommand(data['character'],data['message'])
         else:
-            self.normalCommand(data['character'],data['message'])
+            self.normalPMCommand(data['character'],data['message'])
     
     def handle_CIU(self,data):
         #I was invited to a room
@@ -60,7 +60,7 @@ class Pokerbot(object):
     ###########################################################################
     ### Most bot logic goes here                                            ###
     ###########################################################################
-    def adminCommand(self,character,command):
+    def adminPMCommand(self,character,command):
         #Parse commands for admins
         if command == '!deal':
             self.commandPMdeal(character)
