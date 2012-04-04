@@ -94,7 +94,7 @@ class Pokerbot(object):
         r +="Invite me to a room to start playing\n"
         r +="Available commands in both rooms and PMs\n"
         r +="!deal - Deals a hand\n"
-        self.FC.send_PRI(character,message)
+        self.FC.send_PRI(character,r)
 
 
     def command__deal(self):
