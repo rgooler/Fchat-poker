@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# vim: set fileencoding=utf-8 :
+
 from Fchat import Fchat
 from Deck import Deck
 
@@ -51,8 +53,9 @@ class Pokerbot(object):
     def adminCommand(self,character,command):
         if command == "!deal":
             c = self.deck.deal()
-            hand = character + u': ' + ' '.join(c)
-            self.FC.send_PRI(character,hand)
+            hand = character + u': '+c[0]+' '+c[1]+' '+c[2]+' '+c[3]+' '+c[4]
+            msg = '{"message":"'+hand+'","recipient":"'+character+'"}'
+            self.FC.send_raw('PRI',msg)
         else:
             r  ="\n"
             r +="Admin Help file\n"
