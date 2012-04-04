@@ -28,6 +28,7 @@ class Pokerbot(object):
         self.FC.handle_FRL = self.handle_FRL
         self.FC.handle_PRI = self.handle_PRI
         self.FC.handle_CIU = self.handle_CIU
+        self.FC.handle_MSG = self.handle_MSG
 
     ###########################################################################
     ### handlers for bot behavior                                           ###
@@ -44,28 +45,73 @@ class Pokerbot(object):
     
     def handle_CIU(self,data):
         #I was invited to a room
-        if data['sender'] in self.adminUsers:
-            self.FC.send('JCH',{'channel': data['channel']} )
+        self.FC.send('JCH',{'channel': data['channel']} )
+
+    def handle_MSG(self,data):
+        #I got a message from a room
+        if data['message'] == '!deal':
+            print "Got deal command"
+            print "channel|",data['channel']
+            print "character|",data['character']
+            self.commandCRdeal(data['channel'],data['character'])
 
     ###########################################################################
     ### Most bot logic goes here                                            ###
     ###########################################################################
     def adminCommand(self,character,command):
-        if command == "!deal":
-            c = self.deck.deal()
-            hand = character + u': '+c[0]+' '+c[1]+' '+c[2]+' '+c[3]+' '+c[4]
-            msg = '{"message":"'+hand+'","recipient":"'+character+'"}'
-            self.FC.send_raw('PRI',msg)
+        #Parse commands for admins
+        if command == '!deal':
+            self.commandPMdeal(character)
+        elif command.startswith('join'):
+            self.FC.send('JCH',{'channel': command.lstrip('join ')} )
         else:
-            r  ="\n"
-            r +="Admin Help file\n"
-            r +=self.cname + "\n"
-            r +="!deal - Deals a hand\n"
-            self.FC.send_PRI(character,r)
+            self.adminPMHelp(character)
 
-    def normalCommand(self,character,command):
-        message = "Sorry, you are not an admin, I cannot help you."
+    def adminPMHelp(self,character):
+        # Help docs for admins
+        r  ="\n"
+        r +="Admin Help file\n"
+        r +=self.cname + "\n"
+        r +="Invite me to a room to start playing\n"
+        r +="!deal - Deals a hand\n"
+        r +="join <room> - Join the channel <room>\n"
+        self.FC.send_PRI(character,r)
+
+    def normalPMCommand(self,character,command):
+        #Parse commands for normalers
+        if command == '!deal':
+            self.commandPMdeal(character)
+        else:
+            self.normalPMHelp(character)
+
+    def normalPMHelp(self,character):
+        # Help docs for normalers
+        r  ="\n"
+        r +="Help file\n"
+        r +=self.cname + "\n"
+        r +="Invite me to a room to start playing\n"
+        r +="Available commands in both rooms and PMs\n"
+        r +="!deal - Deals a hand\n"
         self.FC.send_PRI(character,message)
+
+
+    def command__deal(self):
+        #Deal a hand of cards
+        c = self.deck.deal()
+        hand = c[0]+' '+c[1]+' '+c[2]+' '+c[3]+' '+c[4]
+        return hand
+
+    def commandPMdeal(self,character):
+        # Deal cards as requested in a PM
+        hand = self.command__deal()
+        msg = '{"message":"'+hand+'","recipient":"'+character+'"}'
+        self.FC.send_raw('PRI',msg)
+
+    def commandCRdeal(self,room,character):
+        # Deal cards as requested from a ChatRoom
+        hand = character + ': ' + self.command__deal()
+        msg = '{"message":"'+hand+'","channel":"'+room+'"}'
+        self.FC.send_raw('MSG',msg)
 
 if __name__ == "__main__":
     bot = Pokerbot()
