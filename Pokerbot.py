@@ -45,6 +45,8 @@ class Pokerbot(object):
     
     def handle_CIU(self,data):
         #I was invited to a room
+        #Is it a public or private channel? Who cares! Try both
+        self.FC.send('JCH',{'channel': data['name']} )
         self.FC.send('JCH',{'channel': data['channel']} )
 
     def handle_MSG(self,data):
