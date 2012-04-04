@@ -1,0 +1,15 @@
+[server]
+url=ws://chat.f-list.net
+port=8722
+
+[authentication]
+account=test
+password=pass
+character=The Guy
+
+[debug]
+#Enable Debug Messages
+#debug=True
+
+#Enable websocket trace messages
+#enableTrace=True
