@@ -10,7 +10,7 @@ they were tested on.
 
 Python 2.7 or higher
 
-Fchat client 0.10 or higher
+Fchat client 0.11 or higher
 https://github.com/jippen/Fchat
 
 Setup

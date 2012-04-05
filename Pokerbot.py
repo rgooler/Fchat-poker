@@ -3,6 +3,7 @@
 
 from Fchat import Fchat
 from Deck import Deck
+import logging
 
 class Pokerbot(object):
     """
@@ -116,6 +117,15 @@ class Pokerbot(object):
         self.FC.send_raw('MSG',msg)
 
 if __name__ == "__main__":
+    logging.basicConfig(format="%(asctime)s %(message)s",
+                        filename='Pokerbot.log',
+                        filemode='w',
+                        level=logging.DEBUG
+                        )
+    
+    logging.warning("Program Started")
+
+
     bot = Pokerbot()
     bot.loadConfigFile('Pokerbot.conf')
     bot.addHandlers()
