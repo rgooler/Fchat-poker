@@ -4,6 +4,7 @@
 from Fchat import Fchat
 from Deck import Deck
 import logging
+import time
 
 class Pokerbot(object):
     """
@@ -49,14 +50,13 @@ class Pokerbot(object):
         #Is it a public or private channel? Who cares! Try both
         self.FC.send('JCH',{'channel': data['name']} )
         self.FC.send('JCH',{'channel': data['channel']} )
+        time.sleep(3)
 
     def handle_MSG(self,data):
         #I got a message from a room
         if data['message'] == '!deal':
-            print "Got deal command"
-            print "channel|",data['channel']
-            print "character|",data['character']
             self.commandCRdeal(data['channel'],data['character'])
+            time.sleep(1)
 
     ###########################################################################
     ### Most bot logic goes here                                            ###
