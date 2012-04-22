@@ -2,3 +2,4 @@
 *.conf
 .*.swp
 *.pyc
+*.pid
