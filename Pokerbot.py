@@ -5,6 +5,7 @@ from Fchat import Fchat
 from Deck import Deck
 import logging
 import time
+import daemonize
 
 class Pokerbot(object):
     """
@@ -116,17 +117,20 @@ class Pokerbot(object):
         msg = '{"message":"'+hand+'","channel":"'+room+'"}'
         self.FC.send_raw('MSG',msg)
 
-if __name__ == "__main__":
-    logging.basicConfig(format="%(asctime)s %(message)s",
+def mainf():
+    logging.basicConfig(format="%(asctime)s [%(levelno)s] %(funcName)s - %(message)s",
+                        datefmt='%Y-%m-%dT%H:%M:%S%z',
                         filename='Pokerbot.log',
-                        filemode='w',
+                        filemode='a',
                         level=logging.DEBUG
                         )
-    
     logging.warning("Program Started")
-
 
     bot = Pokerbot()
     bot.loadConfigFile('Pokerbot.conf')
     bot.addHandlers()
     bot.FC.connect()
+
+
+if __name__ == "__main__":
+    daemonize.daemonize(mainf,'pokerbot.pid')
