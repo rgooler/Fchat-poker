@@ -45,14 +45,16 @@ if __name__ == "__main__":
     if is_bad:
         try:
             pidfile = 'pokerbot.pid'
-            pid = open(pidfile).read()
+            fh = open(pidfile)
+            pid = fh.read()
+            fh.close()
             print "PID: ", pid
-            subprocess.call("/bin/kill %s" % pid)
-            os.remove(pidfile)
+            subprocess.call("/bin/kill -9 %s" % pid)
         except:
             pass
 
         try: 
+            subprocess.call("/bin/rm pokerbot.pid") 
             subprocess.call('./Pokerbot.py')
         except:
             pass
