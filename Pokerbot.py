@@ -12,7 +12,7 @@ class Pokerbot(object):
     A Poker bot for fchat
     """
     cname = "Poker Bot https://github.com/jippen/Fchat-poker"
-    cversion = "0.1"
+    cversion = "0.2"
 
     #Set this to 0 to not reconnect, or the seconds to wait until reconnecting 
     reconnect = 60
@@ -39,13 +39,13 @@ class Pokerbot(object):
     def handle_FRL(self,data):
         #If I am on the Friends list, I'm a possible admin user!
         self.adminUsers = data['characters']
-    
+
     def handle_PRI(self,data):
         if data['character'] in self.adminUsers:
             self.adminPMCommand(data['character'],data['message'])
         else:
             self.normalPMCommand(data['character'],data['message'])
-    
+
     def handle_CIU(self,data):
         #I was invited to a room
         #Is it a public or private channel? Who cares! Try both
@@ -57,6 +57,27 @@ class Pokerbot(object):
         #I got a message from a room
         if data['message'] == '!deal':
             self.commandCRdeal(data['channel'],data['character'])
+            time.sleep(1)
+        if data['message'] == '!rules':
+            message = """For rolling purposes- !deal
+
+            Literacy is a MUST! If players begin to complain of your literacy, you will be asked once to improve your grammar and spelling, and after that there is a possibility of being kicked.
+
+            Have fun! This is a game meant to have fun! So try to show your teasing side a bit, okay? Unless you don't have fun doing that. Then... just show us something!
+
+            Also, please be courteous and if your intentions are more than just teasing or flirting, take it to another room so as to not interrupt the flow of the game too much!
+
+            1. Five pieces of clothing at a minimum. There is no SET maximum, but it's recommended not to go over eight pieces. One accessory is allowed per person.
+
+            2. The round starts once the dealer says 3, 2, 1 (or some variant of it). Once 1 is said, the players roll. If you roll before hand, your roll will be negated and you must re-roll.
+
+            3. Once the dealer calls the winning hand (PLEASE refrain from calling it before the dealer! Help is appreciated in PMs, but it's confusing on occasion when someone other than the dealer calls the hands!) the person who wins picks one person to remove one piece of clothing. The winner is allowed to suggest a piece of clothing to be removed, but what piece is removed is ultimately the decision of the one removing it.
+
+            4. If it is the last piece of the person called, the one who called it removes it themselves. The naked person is then removed from play, to either sit on the lap of the person who called them, or have them sit on their lap. (Optional)
+
+            5. The game continues until one person is left clothed. Good luck, and have fun!
+            """
+            self.FC.send('MSG',{'channel':data['channel'],'message': message})
             time.sleep(1)
 
     ###########################################################################

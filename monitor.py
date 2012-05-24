@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 from datetime import datetime,timedelta
+import sys
+
 import subprocess
 import os
 
@@ -43,19 +45,22 @@ if __name__ == "__main__":
     is_bad =  (cur_time - last_time) > timedelta(seconds=2)
 
     if is_bad:
-        try:
-            pidfile = 'pokerbot.pid'
-            fh = open(pidfile)
-            pid = fh.read()
-            fh.close()
-            print "PID: ", pid
-            subprocess.call("/bin/kill -9 %s" % pid)
-        except:
-            pass
-
-        try: 
-            subprocess.call("/bin/rm pokerbot.pid") 
-            subprocess.call('./Pokerbot.py')
-        except:
-            pass
+        sys.exit(0)
+    else:
+        sys.exit(1)
+#        try:
+#            pidfile = 'pokerbot.pid'
+#            fh = open(pidfile)
+#            pid = fh.read()
+#            fh.close()
+#            print "PID: ", pid
+#            subprocess.call("/bin/kill -9 %s" % pid)
+#        except:
+#            pass
+#
+#        try:    subprocess.call("/bin/rm pokerbot.pid")
+#        except: pass
+#
+#        try:    subprocess.call('./Pokerbot.py')
+#        except: pass
 
