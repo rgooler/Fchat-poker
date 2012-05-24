@@ -43,8 +43,7 @@ class Deck(object):
         if h == '':
             h = self.deal()
         hand = u''+h[0]+u' '+h[1]+u' '+h[2]+u' '+h[3]+u' '+h[4]
-        hand.replace(u'♥',u'[color=red]♥[/color]')
-        hand.replace(u'♦',u'[color=red]♦[/color]')
+        hand = hand.replace(u'♥',u'[color=red]♥[/color]').replace(u'♦',u'[color=red]♦[/color]')
         return hand
 
 if __name__ == "__main__":
