@@ -42,9 +42,9 @@ class Deck(object):
     def deal_pretty(self,h=''):
         if h == '':
             h = self.deal()
-        hand = u'',h[0],' ',h[1],' ',h[2],' ',h[3],' ',h[4]
-        hand.replace("♥","[color=red]♥[/color]")
-        hand.replace("♦","[color=red]♦[/color]")
+        hand = u''+h[0]+u' '+h[1]+u' '+h[2]+u' '+h[3]+u' '+h[4]
+        hand.replace(u'♥',u'[color=red]♥[/color]')
+        hand.replace(u'♦',u'[color=red]♦[/color]')
         return hand
 
 if __name__ == "__main__":
