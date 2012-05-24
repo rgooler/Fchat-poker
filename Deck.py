@@ -39,9 +39,18 @@ class Deck(object):
 
         return hand
 
+    def deal_pretty(self,h=''):
+        if h == '':
+            h = self.deal()
+        hand = u'',h[0],' ',h[1],' ',h[2],' ',h[3],' ',h[4]
+        hand.replace("♥","[color=red]♥[/color]")
+        hand.replace("♦","[color=red]♦[/color]")
+        return hand
+
 if __name__ == "__main__":
     print "Hello World"
     d = Deck()
     hand = d.deal()
 
     print u'Cards: ',hand[0],' ',hand[1],' ',hand[2],' ',hand[3],' ',hand[4]
+    print u'Pretty: ',d.deal_pretty(hand)
