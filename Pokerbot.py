@@ -122,9 +122,7 @@ class Pokerbot(object):
 
     def command__deal(self):
         #Deal a hand of cards
-        c = self.deck.deal()
-        hand = c[0]+' '+c[1]+' '+c[2]+' '+c[3]+' '+c[4]
-        return hand
+        return self.deck.deal_pretty()
 
     def commandPMdeal(self,character):
         # Deal cards as requested in a PM
